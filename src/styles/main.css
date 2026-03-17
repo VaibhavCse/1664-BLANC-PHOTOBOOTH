@@ -1,0 +1,496 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --blue-deep:#0a1e4a;
+  --gold:#c9a84c;
+  --gold-light:#f0d080;
+  --white:#ffffff;
+}
+
+body{
+  background:#0a1e4a;
+  overflow-x:hidden;
+  font-family:'Montserrat',sans-serif;
+}
+
+/* ─── LANDING ─────────────────────────────────────── */
+
+.landing{
+  height:100vh;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Frame 8 fills entire screen */
+.landingBg{
+  position:absolute;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  z-index:0;
+}
+
+/* Subtle dark overlay — hides moon clash with cards */
+.landingOverlay{
+  position:absolute;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    180deg,
+    rgba(10,30,74,0.15) 0%,
+    rgba(10,30,74,0.0) 25%,
+    rgba(10,30,74,0.55) 55%,
+    rgba(10,30,74,0.85) 100%
+  );
+  z-index:1;
+}
+
+/* Brand */
+.hero{
+  position:relative;
+  z-index:5;
+  text-align:center;
+  padding:32px 20px 0;
+  width:100%;
+}
+
+.brandTitle{
+  font-family:'BourtonBase',serif;
+  font-size:60px;
+  font-weight:700;
+  color:var(--white);
+  letter-spacing:8px;
+  text-transform:uppercase;
+  line-height:1;
+  text-shadow:0 2px 20px rgba(0,0,0,0.5);
+}
+
+.brandSubtitle{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:6px;
+  color:var(--gold-light);
+  text-transform:uppercase;
+  margin-top:8px;
+}
+
+.brandDivider{
+  width:50px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin:12px auto 0;
+}
+
+/* Experience section */
+.experienceSection{
+  position:relative;
+  z-index:5;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-bottom:10px;
+}
+
+.sectionTitle{
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:5px;
+  color:rgba(255,255,255,0.55);
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+
+.experienceScroll{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:0 40px;
+  flex-wrap:wrap;
+}
+
+/* Card */
+.experienceCard{
+  width:220px;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:14px;
+  overflow:hidden;
+  cursor:pointer;
+  backdrop-filter:blur(14px);
+  transition:all 0.3s ease;
+  position:relative;
+}
+
+.experienceCard::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:3px;
+  background:linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  z-index:2;
+}
+
+.experienceCard:hover{
+  background:rgba(255,255,255,0.12);
+  border-color:rgba(201,168,76,0.5);
+  transform:translateY(-5px);
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
+}
+
+.cardImage{
+  width:100%;
+  height:130px;
+  object-fit:cover;
+  display:block;
+}
+
+.cardContent{
+  padding:14px 16px 10px;
+}
+
+.cardContent h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;
+  font-weight:700;
+  color:var(--white);
+}
+
+.cardContent p{
+  margin-top:4px;
+  font-size:10px;
+  color:rgba(255,255,255,0.45);
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.cardBtn{
+  display:block;
+  margin:8px 16px 14px;
+  padding:9px 0;
+  text-align:center;
+  background:linear-gradient(90deg, #c9a84c, #f0d080, #c9a84c);
+  background-size:200% auto;
+  border:none;
+  border-radius:40px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:3px;
+  color:#0a1e4a;
+  cursor:pointer;
+  width:calc(100% - 32px);
+  transition:background-position 0.4s, transform 0.2s;
+}
+
+.cardBtn:hover{
+  background-position:right center;
+  transform:scale(1.02);
+}
+
+/* ─── CAMERA ──────────────────────────────────────── */
+
+.cameraContainer{
+  position:fixed;
+  top:0;left:0;
+  width:100vw;height:100vh;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+.cameraVideo{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  z-index:0;
+}
+
+/* Frame 2 — bottom cityscape strip */
+.cameraFrameOverlay{
+  position:absolute;
+  bottom:0;left:0;
+  width:100%;
+  height:auto;
+  max-height:35%;
+  object-fit:cover;
+  object-position:bottom;
+  z-index:3;
+  pointer-events:none;
+}
+
+.cameraLoading{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  color:#fff;
+  background:rgba(10,30,74,0.75);
+  padding:14px 24px;
+  border-radius:40px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter:blur(8px);
+  z-index:10;
+}
+
+.cameraControls{
+  position:absolute;
+  bottom:48px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:10;
+}
+
+.captureButton{
+  width:84px;height:84px;
+  border-radius:50%;
+  background:linear-gradient(135deg, #c9a84c, #f0d080);
+  border:5px solid rgba(255,255,255,0.9);
+  cursor:pointer;
+  transition:0.25s;
+  box-shadow:0 8px 30px rgba(201,168,76,0.5);
+}
+
+.captureButton:hover{
+  transform:scale(1.1);
+  box-shadow:0 12px 40px rgba(201,168,76,0.7);
+}
+
+.captureButton:disabled{
+  opacity:0.4;
+  cursor:not-allowed;
+  transform:none;
+}
+
+/* ─── COUNTDOWN ───────────────────────────────────── */
+
+.countdownOverlay{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.4);
+  z-index:5;
+}
+
+.countNumber{
+  font-family:'Cormorant Garamond',serif;
+  font-size:200px;
+  color:white;
+  font-weight:700;
+  text-shadow:0 0 60px rgba(201,168,76,0.8);
+  animation:pop 0.3s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.5);opacity:0.5}
+  to{transform:scale(1);opacity:1}
+}
+
+/* ─── QR SCREEN ───────────────────────────────────── */
+
+.qrPage{
+  min-height:100vh;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.qrBg{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  z-index:0;
+}
+
+/* Dark overlay so text/QR readable over Frame 3 */
+.qrOverlay{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(10,30,74,0.6);
+  z-index:1;
+}
+
+.qrInner{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  color:white;
+  text-align:center;
+  width:100%;
+  padding:20px;
+}
+
+.brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;
+  font-weight:700;
+  letter-spacing:8px;
+  text-transform:uppercase;
+  text-shadow:0 0 30px rgba(201,168,76,0.4);
+}
+
+.brandTagline{
+  font-size:10px;
+  letter-spacing:5px;
+  color:var(--gold-light);
+  text-transform:uppercase;
+  margin-top:6px;
+  margin-bottom:36px;
+}
+
+.qrContent{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:80px;
+}
+
+.photoPreview{
+  width:260px;
+  height:360px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+  background:rgba(255,255,255,0.08);
+}
+
+.photoPreview img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.imageLoader{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  color:rgba(255,255,255,0.6);
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.qrSection{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:22px;
+}
+
+.qrCircle{
+  width:210px;height:210px;
+  background:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+
+.scanText{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--gold-light);
+}
+
+.resetBtn{
+  padding:13px 34px;
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:40px;
+  background:rgba(255,255,255,0.08);
+  color:white;
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:0.3s;
+  backdrop-filter:blur(8px);
+}
+
+.resetBtn:hover{
+  background:rgba(255,255,255,0.15);
+  border-color:rgba(201,168,76,0.6);
+  color:var(--gold-light);
+  transform:scale(1.04);
+}
+
+/* ─── LOADING / ERROR ─────────────────────────────── */
+
+.loadingScreen{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,#0a1e4a,#1a3a8f);
+  color:white;
+  font-size:12px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  font-family:'Montserrat',sans-serif;
+}
+
+.errorScreen{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  background:#0a1e4a;
+  color:white;
+  font-family:'Montserrat',sans-serif;
+}
+
+.errorScreen button{
+  padding:12px 28px;
+  border-radius:40px;
+  border:1px solid rgba(255,255,255,0.3);
+  background:transparent;
+  color:white;
+  font-size:12px;
+  letter-spacing:3px;
+  cursor:pointer;
+}
+
+/* ─── MOBILE ──────────────────────────────────────── */
+
+@media(max-width:900px){
+  .brandTitle{font-size:40px;letter-spacing:4px}
+  .experienceScroll{flex-direction:column;align-items:center;padding:0 20px}
+  .experienceCard{width:88%;max-width:320px}
+  .qrContent{flex-direction:column;gap:36px}
+}
