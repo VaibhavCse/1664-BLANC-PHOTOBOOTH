@@ -1,7 +1,7 @@
 import { bootstrapCameraKit, createMediaStreamSource } from "@snap/camera-kit"
 
 const API_TOKEN = "eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzczNDg0MDg3LCJzdWIiOiIxYWI5MGFjZi05ZmVkLTQzNDEtYmVkNS1jNzI2YTlhMDA4MjR-U1RBR0lOR344NmVjOTU3Zi1mMjFkLTQ2OTYtOWVkMy0yNGYwMWQ3YjEwN2IifQ.dyykvMlenEf1oUA1_Fx9o6D5znRco8kW5Pfut7kmUsc"
-const LENS_GROUP = "1d418315-4d99-45ce-8913-68107d39255f"
+const LENS_GROUP = "60d338ee-1d7f-41af-8437-657956450777"
 
 let _kit     = null
 let _session = null
@@ -39,6 +39,7 @@ export async function initCamera(container) {
     position:absolute;top:0;left:0;
     width:100%;height:100%;
     object-fit:cover;z-index:2;pointer-events:none;
+    transform:scaleX(-1);
   `
   container.appendChild(_canvas)
   await _session.play()
