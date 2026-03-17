@@ -9,7 +9,7 @@ import icon3 from "../assets/icon3.png"
 import icon4 from "../assets/icon4.png"
 
 const FILTERS = [
-  { title: "Le Scarf",     lensId: "5a048399-bb32-4263-9d49-fe77baf770e4", icon: icon1 },
+  { title: "Le Scarf",     lensId: "b0348dd6-6411-4365-9973-36a5243be3de", icon: icon1 },
   { title: "La Beret",     lensId: "ee60eb23-9a1a-45f8-9a8b-5c94ea146277", icon: icon2 },
   { title: "Les Lunettes", lensId: "33bf5116-f2b1-4282-a297-3f43e041028c", icon: icon3 },
   { title: "1664 Blanc",   lensId: "fedd8543-0170-4194-b825-c4dd72f99287", icon: icon4 },

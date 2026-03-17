@@ -30,7 +30,7 @@ export async function initCamera(container) {
 
   const source = createMediaStreamSource(_stream, {
     cameraType: "front",
-    disableMirroring: false
+    disableMirroring: true
   })
   await _session.setSource(source)
 
