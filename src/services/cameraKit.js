@@ -42,6 +42,7 @@ export async function initCamera(container) {
   let _lastFrameTime = 0
 
   function drawFlipped(timestamp) {
+    if (!_offscreen) return
     _rafId = requestAnimationFrame(drawFlipped)
     if (timestamp - _lastFrameTime < 1000 / TARGET_FPS) return
     _lastFrameTime = timestamp

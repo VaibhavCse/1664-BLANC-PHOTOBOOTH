@@ -25,6 +25,7 @@ export default function CameraScreen({ onCapture }) {
   const [loading,   setLoading]   = useState(true)
   const [switching, setSwitching] = useState(false)
   const [capturing, setCapturing] = useState(false)
+  const [bgEnabled, setBgEnabled] = useState(true)
 
   useEffect(() => {
     mountedRef.current = true
@@ -62,6 +63,35 @@ export default function CameraScreen({ onCapture }) {
     if (Math.abs(dx) < 50) return
     if (dx < 0) switchFilter(Math.min(activeIdx + 1, FILTERS.length - 1))
     else        switchFilter(Math.max(activeIdx - 1, 0))
+  }
+
+  function handleCanvasTap(e) {
+    // Don't fire if tapping the bottom controls (icons, buttons)
+    if (e.target.closest && e.target.closest('[data-controls]')) return
+    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'IMG') return
+    // Don't fire if this was triggered by our own dispatched event
+    if (e.target.tagName === 'CANVAS') return
+    if (!lensReady) return
+
+    // Toggle bg state
+    setBgEnabled(prev => !prev)
+
+    // Forward a real click into the Snap canvas so the lens receives it
+    const snapCanvas = containerRef.current?.querySelector("canvas")
+    if (!snapCanvas) return
+
+    const rect = snapCanvas.getBoundingClientRect()
+    const clientX = e.clientX ?? (e.touches?.[0]?.clientX ?? rect.left + rect.width / 2)
+    const clientY = e.clientY ?? (e.touches?.[0]?.clientY ?? rect.top  + rect.height / 2)
+
+    // Dispatch both mousedown and click so lens runtime catches it
+    ;["mousedown", "mouseup", "click"].forEach(type => {
+      snapCanvas.dispatchEvent(new MouseEvent(type, {
+        bubbles: true, cancelable: true,
+        clientX, clientY,
+        view: window
+      }))
+    })
   }
 
   function startCountdown() {
@@ -105,6 +135,7 @@ export default function CameraScreen({ onCapture }) {
       ref={containerRef}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onClick={handleCanvasTap}
       style={{ width: "100vw", height: "100vh", position: "relative", overflow: "hidden", background: "#000" }}
     >
 

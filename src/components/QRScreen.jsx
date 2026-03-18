@@ -4,7 +4,7 @@ import frame15 from "../assets/Frame 15.png"
 
 const AUTO_RESET = 30
 
-export default function QRScreen({ image, viewerUrl, onReset }) {
+export default function QRScreen({ image, viewerUrl, onReset, onBack }) {
   const [imgLoaded, setImgLoaded] = useState(false)
   const [countdown, setCountdown] = useState(AUTO_RESET)
   const shouldReset = useRef(false)
@@ -109,8 +109,8 @@ export default function QRScreen({ image, viewerUrl, onReset }) {
           color: "rgba(255,255,255,0.6)", zIndex: 10
         }}>{countdown}s</div>
 
-        {/* X hit zone */}
-        <div onClick={onReset} style={{
+        {/* X hit zone — goes back to camera */}
+        <div onClick={onBack} style={{
           position: "absolute",
           top: "11%", left: "50%",
           transform: "translateX(-50%)",

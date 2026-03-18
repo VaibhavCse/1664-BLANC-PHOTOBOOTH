@@ -17,7 +17,6 @@ function App() {
       setUploading(true)
       setError(null)
       const result = await uploadImage(img)
-      // Handle both string return and object return from imgbb
       const imageUrl = typeof result === "string" ? result : result?.url
       const viewer   = typeof result === "string" ? result : (result?.viewerUrl || result?.url)
       if (!imageUrl) throw new Error("No URL returned")
@@ -80,7 +79,7 @@ function App() {
 
   if (screen === "home")   return <Home onSelect={() => setScreen("camera")} />
   if (screen === "camera") return <CameraScreen onCapture={handleCapture} />
-  if (screen === "qr")     return <QRScreen image={image} viewerUrl={viewerUrl} onReset={handleReset} />
+  if (screen === "qr")     return <QRScreen image={image} viewerUrl={viewerUrl} onReset={handleReset} onBack={() => setScreen("camera")} />
 
   return null
 }
