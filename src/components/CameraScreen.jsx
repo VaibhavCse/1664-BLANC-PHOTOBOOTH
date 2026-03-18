@@ -88,14 +88,7 @@ export default function CameraScreen({ onCapture }) {
       let cropX = 0, cropY = 0, cropW = srcW, cropH = srcH
       if (srcRatio > tgtRatio) { cropW = srcH * tgtRatio; cropX = (srcW - cropW) / 2 }
       else                     { cropH = srcW / tgtRatio; cropY = (srcH - cropH) / 2 }
-      // disableMirroring:false mirrors the display but not canvas pixels — flip here
-      ctx.save()
-      ctx.translate(tgtW, 0)
-      ctx.scale(-1, 1)
       ctx.drawImage(snapCanvas, cropX, cropY, cropW, cropH, 0, 0, tgtW, tgtH)
-      ctx.restore()
-      ctx.restore()
-      ctx.restore()
       const dataURL = exp.toDataURL("image/jpeg", 0.75)
       suspendCamera()
       onCapture(dataURL)
@@ -120,8 +113,9 @@ export default function CameraScreen({ onCapture }) {
           <motion.div key="loader"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             style={{
-              position: "absolute", top: "50%", left: "50%",
-              transform: "translate(-50%,-50%)",
+              position: "fixed",
+              top: "50%", left: "50%",
+              transform: "translate(-50%, -50%)",
               color: "#fff", background: "rgba(10,30,74,0.85)",
               padding: "12px 24px", borderRadius: "40px",
               fontFamily: "'Montserrat',sans-serif",
@@ -130,7 +124,7 @@ export default function CameraScreen({ onCapture }) {
               border: "1px solid rgba(255,255,255,0.15)",
               backdropFilter: "blur(8px)", zIndex: 50, pointerEvents: "none"
             }}>
-            {switching ? "Switching..." : "Loading..."}
+            <span style={{ display: "inline-block" }}>{switching ? "Switching..." : "Loading..."}</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -142,7 +136,7 @@ export default function CameraScreen({ onCapture }) {
       )}
 
       <div style={{
-        position: "absolute", bottom: "56px", left: 0, right: 0,
+        position: "absolute", bottom: "68px", left: 0, right: 0,
         zIndex: 10, pointerEvents: "all",
         display: "flex", flexDirection: "column", alignItems: "center", gap: "10px"
       }}>
