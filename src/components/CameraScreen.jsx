@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Countdown from "./Countdown"
 import { initCamera, applyLens, suspendCamera } from "../services/cameraKit"
-import BottomBar from "./BottomBar"
 import icon1 from "../assets/icon1.png"
 import icon2 from "../assets/icon2.png"
 import icon3 from "../assets/icon3.png"
@@ -18,7 +17,7 @@ const FILTERS = [
 export default function CameraScreen({ onCapture }) {
   const containerRef = useRef(null)
   const mountedRef   = useRef(true)
-  const touchStartX  = useRef(null)   // ← swipe tracking
+  const touchStartX  = useRef(null)
 
   const [activeIdx, setActiveIdx] = useState(0)
   const [counting,  setCounting]  = useState(false)
@@ -52,7 +51,6 @@ export default function CameraScreen({ onCapture }) {
     if (mountedRef.current) setSwitching(false)
   }
 
-  // ── Swipe handlers ──────────────────────────────
   function handleTouchStart(e) {
     touchStartX.current = e.touches[0].clientX
   }
@@ -61,11 +59,10 @@ export default function CameraScreen({ onCapture }) {
     if (touchStartX.current === null) return
     const dx = e.changedTouches[0].clientX - touchStartX.current
     touchStartX.current = null
-    if (Math.abs(dx) < 50) return          // too short, ignore
-    if (dx < 0) switchFilter(Math.min(activeIdx + 1, FILTERS.length - 1))  // swipe left → next
-    else        switchFilter(Math.max(activeIdx - 1, 0))                    // swipe right → prev
+    if (Math.abs(dx) < 50) return
+    if (dx < 0) switchFilter(Math.min(activeIdx + 1, FILTERS.length - 1))
+    else        switchFilter(Math.max(activeIdx - 1, 0))
   }
-  // ────────────────────────────────────────────────
 
   function startCountdown() {
     if (!lensReady || capturing || counting || switching) return
@@ -74,7 +71,7 @@ export default function CameraScreen({ onCapture }) {
 
   async function takePhoto() {
     if (capturing) return
-    const snapCanvas = containerRef.current?.querySelector('canvas')
+    const snapCanvas = containerRef.current?.querySelector("canvas")
     if (!snapCanvas) return
     setCapturing(true)
     try {
@@ -91,7 +88,14 @@ export default function CameraScreen({ onCapture }) {
       let cropX = 0, cropY = 0, cropW = srcW, cropH = srcH
       if (srcRatio > tgtRatio) { cropW = srcH * tgtRatio; cropX = (srcW - cropW) / 2 }
       else                     { cropH = srcW / tgtRatio; cropY = (srcH - cropH) / 2 }
+      // disableMirroring:false mirrors the display but not canvas pixels — flip here
+      ctx.save()
+      ctx.translate(tgtW, 0)
+      ctx.scale(-1, 1)
       ctx.drawImage(snapCanvas, cropX, cropY, cropW, cropH, 0, 0, tgtW, tgtH)
+      ctx.restore()
+      ctx.restore()
+      ctx.restore()
       const dataURL = exp.toDataURL("image/jpeg", 0.75)
       suspendCamera()
       onCapture(dataURL)
@@ -108,27 +112,25 @@ export default function CameraScreen({ onCapture }) {
       ref={containerRef}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden', background: '#000' }}
+      style={{ width: "100vw", height: "100vh", position: "relative", overflow: "hidden", background: "#000" }}
     >
-
-      <BottomBar />
 
       <AnimatePresence>
         {(loading || switching) && (
           <motion.div key="loader"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             style={{
-              position: 'absolute', top: '50%', left: '50%',
-              transform: 'translate(-50%,-50%)',
-              color: '#fff', background: 'rgba(10,30,74,0.85)',
-              padding: '12px 24px', borderRadius: '40px',
+              position: "absolute", top: "50%", left: "50%",
+              transform: "translate(-50%,-50%)",
+              color: "#fff", background: "rgba(10,30,74,0.85)",
+              padding: "12px 24px", borderRadius: "40px",
               fontFamily: "'Montserrat',sans-serif",
-              fontSize: '10px', fontWeight: 600,
-              letterSpacing: '4px', textTransform: 'uppercase',
-              border: '1px solid rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(8px)', zIndex: 50, pointerEvents: 'none'
+              fontSize: "10px", fontWeight: 600,
+              letterSpacing: "4px", textTransform: "uppercase",
+              border: "1px solid rgba(255,255,255,0.15)",
+              backdropFilter: "blur(8px)", zIndex: 50, pointerEvents: "none"
             }}>
-            {switching ? 'Switching...' : 'Loading...'}
+            {switching ? "Switching..." : "Loading..."}
           </motion.div>
         )}
       </AnimatePresence>
@@ -139,11 +141,10 @@ export default function CameraScreen({ onCapture }) {
         }} />
       )}
 
-      {/* Controls above bottom bar */}
       <div style={{
-        position: 'absolute', bottom: '130px', left: 0, right: 0,
-        zIndex: 10, pointerEvents: 'all',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px'
+        position: "absolute", bottom: "56px", left: 0, right: 0,
+        zIndex: 10, pointerEvents: "all",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: "10px"
       }}>
         <AnimatePresence mode="wait">
           <motion.p key={activeIdx}
@@ -151,16 +152,16 @@ export default function CameraScreen({ onCapture }) {
             transition={{ duration: 0.15 }}
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '16px', fontWeight: 600, color: '#fff',
-              letterSpacing: '4px', textTransform: 'uppercase',
-              textShadow: '0 2px 16px rgba(0,0,0,1)',
-              margin: 0, pointerEvents: 'none'
+              fontSize: "16px", fontWeight: 600, color: "#fff",
+              letterSpacing: "4px", textTransform: "uppercase",
+              textShadow: "0 2px 16px rgba(0,0,0,1)",
+              margin: 0, pointerEvents: "none"
             }}>
             {FILTERS[activeIdx].title}
           </motion.p>
         </AnimatePresence>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "12px" }}>
           {FILTERS.map((f, i) => {
             const isActive = i === activeIdx
             const size = isActive ? 68 : Math.abs(i - activeIdx) === 1 ? 50 : 40
@@ -170,18 +171,18 @@ export default function CameraScreen({ onCapture }) {
                 whileTap={{ scale: 0.85 }}
                 style={{
                   width: `${size}px`, height: `${size}px`,
-                  borderRadius: '50%', flexShrink: 0,
-                  background: isActive ? '#fff' : 'rgba(255,255,255,0.18)',
+                  borderRadius: "50%", flexShrink: 0,
+                  background: isActive ? "#fff" : "rgba(255,255,255,0.18)",
                   border: isActive
-                    ? `3px solid ${canCapture ? '#c9a84c' : 'rgba(255,255,255,0.4)'}`
-                    : '2px solid rgba(255,255,255,0.2)',
-                  boxShadow: isActive ? '0 0 0 4px rgba(201,168,76,0.35),0 4px 20px rgba(0,0,0,0.5)' : 'none',
-                  cursor: 'pointer', padding: isActive ? '8px' : '6px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  overflow: 'hidden', opacity: isActive ? 1 : 0.65,
-                  transition: 'all 0.25s ease'
+                    ? `3px solid ${canCapture ? "#c9a84c" : "rgba(255,255,255,0.4)"}`
+                    : "2px solid rgba(255,255,255,0.2)",
+                  boxShadow: isActive ? "0 0 0 4px rgba(201,168,76,0.35),0 4px 20px rgba(0,0,0,0.5)" : "none",
+                  cursor: "pointer", padding: isActive ? "8px" : "6px",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  overflow: "hidden", opacity: isActive ? 1 : 0.65,
+                  transition: "all 0.25s ease"
                 }}>
-                <img src={f.icon} style={{ width: '100%', height: '100%', objectFit: 'contain' }} alt={f.title} />
+                <img src={f.icon} style={{ width: "100%", height: "100%", objectFit: "contain" }} alt={f.title} />
               </motion.button>
             )
           })}
