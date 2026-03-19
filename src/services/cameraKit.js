@@ -30,11 +30,9 @@ export async function initCamera(container) {
   await new Promise(resolve => { rawVideo.onloadedmetadata = () => resolve() })
   await rawVideo.play()
 
-  // 50% resolution — halves GPU work on low-end TV
-  const scale = 0.5
   _offscreen = document.createElement("canvas")
-  _offscreen.width  = (rawVideo.videoWidth  || 1280) * scale
-  _offscreen.height = (rawVideo.videoHeight || 720)  * scale
+  _offscreen.width  = rawVideo.videoWidth  || 1280
+  _offscreen.height = rawVideo.videoHeight || 720
   const ctx = _offscreen.getContext("2d", { alpha: false, willReadFrequently: false })
 
   // 24fps cap — enough for photobooth, cuts CPU/GPU load by ~60%
