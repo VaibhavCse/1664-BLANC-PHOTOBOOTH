@@ -18,7 +18,7 @@ export async function initCamera(container) {
   }
 
   _stream = await navigator.mediaDevices.getUserMedia({
-    video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } },
+    video: { facingMode: "user", width: { ideal: 720 }, height: { ideal: 1280 } },
     audio: false
   })
 
@@ -31,8 +31,8 @@ export async function initCamera(container) {
   await rawVideo.play()
 
   _offscreen = document.createElement("canvas")
-  _offscreen.width  = rawVideo.videoWidth  || 1280
-  _offscreen.height = rawVideo.videoHeight || 720
+  _offscreen.width  = rawVideo.videoWidth  || 720
+  _offscreen.height = rawVideo.videoHeight || 1280
   const ctx = _offscreen.getContext("2d", { alpha: false, willReadFrequently: false })
 
   // 24fps cap — enough for photobooth, cuts CPU/GPU load by ~60%
