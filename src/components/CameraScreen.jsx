@@ -8,10 +8,10 @@ import icon3 from "../assets/icon3.png"
 import icon4 from "../assets/icon4.png"
 
 const FILTERS = [
-  { title: "Le Scarf",     lensId: "650ee0c5-6451-4a2e-9706-ca0ec8c443b9", icon: icon1 },
-  { title: "La Beret",     lensId: "d1f9eb4b-e1f5-49d0-8507-ddd66061c975", icon: icon2 },
-  { title: "Les Lunettes", lensId: "7d84f935-6d66-42ac-b1da-ec78dc538320", icon: icon3 },
-  { title: "1664 Blanc",   lensId: "30e5583c-cf28-4ff8-bd3a-0c64a50171cc", icon: icon4 },
+  { title: "Le Scarf",     lensId: "89b348eb-400d-4fea-b156-ffa1d486cfb2", icon: icon1 },
+  { title: "La Beret",     lensId: "bbf57289-ccfa-4f63-838c-e06ae10c9597", icon: icon2 },
+  { title: "Les Lunettes", lensId: "2ed16f41-fa74-4146-b5ec-e3720e6a9052", icon: icon3 },
+  { title: "1664 Blanc",   lensId: "3d6ba249-9e81-451e-a992-034b11332f55", icon: icon4 },
 ]
 
 export default function CameraScreen({ onCapture }) {
